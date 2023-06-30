@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Booth</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <style>
+    /* Unique Custom Styling */
+    body {
+      background-color: #f2f2f2;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .container h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .container .btn {
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+
+    .container .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    .container .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .container .btn-success:hover,
+    .container .btn-secondary:hover {
+      background-color: #218838;
+      border-color: #218838;
+    }
+
+    .container .btn-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  {% if user.is_authenticated %}
+    <form enctype="multipart/form-data" method="post" role="product_page">
+      {% csrf_token %}
+      <h2>Hi {{ request.user }}!</h2>
+      <p class="mb-4">To make a payment, click on the button below:</p>
+      <button type="submit" class="btn btn-success" href="{% url 'product_page' %}" data-bind-href="pricing">Payment</button>
+    </form>
+  {% else %}
+    <h2>You're not logged in...</h2>
+    <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
+  {% endif %}
+</div>
+</body>
+</html>

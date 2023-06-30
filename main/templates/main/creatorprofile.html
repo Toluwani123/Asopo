@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .header {
+            background-color: #000;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .profile-card {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .profile-info p {
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: 0;
+            color: #ccc;
+        }
+
+        .post-container {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 50px; 
+            
+        }
+
+        .post-container:last-child {
+            margin-bottom: 0;
+        }
+
+        .bid-container {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .accepted-bid {
+            background-color: #155724;
+            color: #fff;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .bidder-info {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .comment-info {
+            margin-top: 10px;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button::before {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .button:hover::before {
+            transform: translateY(100%);
+        }
+
+        .closed-project {
+            background-color: #f44336;
+            color: #fff;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-bottom: 50px;
+        }
+        
+        .closed-project::before {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .closed-project:hover {
+            transform: translateY(-2px);
+        }
+        
+        .closed-project:hover::before {
+            transform: translateY(100%);
+        }
+
+        .edit-profile-link {
+            margin-right: 10px;
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        
+        .create-post-link {
+            margin-top: 30px;
+            display: inline-block;
+            background-color: grey;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .create-post-link::before {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .create-post-link:hover {
+            background-color: #297fb8;
+            transform: translateY(-2px);
+        }
+        
+        .create-post-link:hover::before {
+            transform: translateY(100%);
+        }
+        .footer-links {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .footer-links a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #3498db;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer-links a:last-child {
+            margin-right: 0;
+        }
+        
+        .footer-links a:hover {
+            background-color: #297fb8;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #444;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .post-container,
+            .accepted-bid,
+            .closed-project {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="profile-card">
+            <div class="profile-info">
+                <h2>{{ creatorprofile.user.username }}'s Profile </h2>
+                <p>Email: {{ creatorprofile.user.email }}</p>
+                <p>First Name: {{ creatorprofile.user.first_name }}</p>
+                <p>Last Name: {{ creatorprofile.user.last_name }}</p>
+                <!-- Add other relevant profile information here -->
+            </div>
+        </div>
+    </div>
+    <div class="profile-container">
+        {% for post in posts %}
+        <div class="post-container">
+            <h3>Project Title: {{ post.title }}</h3>
+            <p>Project Description: {{ post.content }}</p>
+            <p>Created at: {{ post.created_at }}</p>
+            <a href= " {% url 'edit_creator_post' post.id%} " class='button'>Edit your Project</a>
+
+            <h4>Bids:</h4>
+            {% for bid in post.bids.all %}
+            <div class="bid-container">
+                <p class="bidder-info">Bidder: {{ bid.bidder }}</p>
+                <p>Bid Price: {{ bid.bid_price }}</p>
+                <p>Custom Option: {{ bid.custom_option }}</p>
+                <p>Comments: {{ bid.comments }}</p>
+                {% if bid.accepted %}
+                <div class="accepted-bid">
+                    <h3>This bid has already been accepted</h3>
+                    <h3>Please Note that you cannot accept another bid</h3>
+                    <a href="{% url 'booth' post.title %}" class="button">Chat with the selected consumer</a>
+                </div>
+                {% elif post.accepted_bid is None and not post.closed %}
+                <form method="POST" action="{% url 'accept_bid' bid.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="button">Accept Bid</button>
+                </form>
+                {% else %}
+                
+                {% endif %}
+            </div>
+            <hr>
+            {% empty %}
+            <p>No bids available for this post.</p>
+            {% endfor %}
+        </div>
+        {% if not post.closed %}
+        <form method="POST" action="{% url 'close_project' post.id %}">
+            {% csrf_token %}
+            <button type="submit" class="closed-project">Close Project</button>
+        </form>
+        {% else %}
+        <h3>You've already closed this project</h3>
+        {% endif %}
+
+        {% empty %}
+        <p>No posts available.</p>
+        {% endfor %}
+    </div>
+    <div class="footer-links">
+        <a href="{% url 'creatorpost' %}" class="create-post-link">Create a post</a>
+        <a href="{% url 'edit_creator' request.user.id %}" class="edit-profile-link">Edit Profile</a>
+    </div>
+    
+</body>
+</html>

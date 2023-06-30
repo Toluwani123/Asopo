@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  {%load static%}
+	<head>
+		<meta charset="utf-8">
+		<title>Create User</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		
+		
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="{% static 'main/registration.css'%}">
+	</head>
+
+	<body>
+
+		<div class="wrapper">
+			<div class="inner">
+				<form method="POST">
+          {%csrf_token%}
+					<h3>Registration Form</h3>
+					<div class="form-group">
+            <div class='form-wrapper'>
+              <label for="">UserName</label>
+              {{form.username}}
+            </div>
+						<div class="form-wrapper">
+							<label for="">First Name</label>
+							{{form.first_name}}
+						</div>
+						<div class="form-wrapper">
+							<label for="">Last Name</label>
+							{{form.last_name}}
+						</div>
+
+					</div>
+					<div class="form-wrapper">
+						<label for="">Email</label>
+						{{form.email}}
+					</div>
+					<div class="form-wrapper">
+						<label for="">Password</label>
+						{{form.password1}}
+					</div>
+					<div class="form-wrapper">
+						<label for="">Confirm Password</label>
+						{{form.password2}}
+					</div>
+					<button type="Submit">Register Now</button>
+				</form>
+				<h2>Already have an account? </h2><a href="{% url 'login'%}">Login</a>
+			</div>
+			
+		</div>
+    
+		
+	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

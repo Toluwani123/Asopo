@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Order Confirmation</title>
+  <style>
+    /* Unique Custom Styling */
+    body {
+      background-color: #f9f9f9;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .container h1, .container h2 {
+      font-weight: bold;
+    }
+
+    .container h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .container h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .container ol {
+      text-align: left;
+      margin: 20px 0;
+      padding-left: 40px;
+    }
+
+    .container li {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .container img {
+      max-width: 100%;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Thanks for your order, {{ customer.name }}!</h1>
+    <h2>Take note of the following things:</h2>
+    <ol>
+      <li>Before you receive the project you paid for, we will confirm your payment and communicate with the creator to ensure prompt delivery.</li>
+      <li>Please halt all communication with the creator of the project as we are not involved or liable for anything that happens after the bid has been paid for. However, the chat box will remain open until your payment has been confirmed.</li>
+      <li>As expected, you will no longer be able to submit another bid for this project.</li>
+      <li>If your project has not been delivered within 5 days, and no discussion was made with the creator, your refund will be sent back within 5-7 business days.</li>
+    </ol>
+    <h2>Again, thank you for using Asopo and supporting our African Creators!</h2>
+    <a href="{% url 'home'%}">Go back home</a>
+  </div>
+</body>
+</html>

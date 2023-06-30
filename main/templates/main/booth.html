@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Booth</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f4e5;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2A293E;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2A293E;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        #submit {
+            background-color: #2A293E;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #submit:hover {
+            background-color: #1A192E;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #2A293E;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ request.user.email }}</h1>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-8">
+            {% if accepted_bid %}
+                <h2 class="text-center">Accepted Bidder: {{ accepted_bid.bidder }}</h2>
+
+                <form>
+                    <div class="form-group">
+                        <label for="chat-text" class="h4 pt-5">Chatroom</label>
+                        <textarea class="form-control" id="chat-text" rows="10" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="input" type="text" placeholder="Type your message here">
+                    </div>
+                    <input class="btn btn-submit btn-lg btn-block" id="submit" type="button" value="Send"
+                        {% if not accepted_bid.accepted %}disabled{% endif %}>
+                </form>
+                <a href="{% url 'product_page' %}" class="link-payment">Proceed to pay for your Bid</a>
+            {% else %}
+                <h1 class="text-center">{{ message }}</h1>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{{ request.user.username|json_script:"user_username" }}
+{{ booth_name|json_script:"booth-name" }}
+{{ accepted_bid.project.creator.user.username|json_script:"receiver_name" }}
+
+<script src="{% static 'main/reconnecting-websocket.js' %}"></script>
+<script>
+    const user_username = JSON.parse(document.getElementById('user_username').textContent);
+    const receiver_username = JSON.parse(document.getElementById('receiver_name').textContent);
+    const chatText = document.querySelector('#chat-text');
+    const messageInputDom = document.querySelector('#input');
+    const submitButton = document.querySelector('#submit');
+    const boothName = JSON.parse(document.getElementById('booth-name').textContent);
+    const chatSocket = new ReconnectingWebSocket(
+        'ws://' +
+        window.location.host +
+        '/ws/creator_chat/' +
+        boothName +
+        '/'
+    );
+
+    chatSocket.onopen = function (e) {
+        fetchMessages();
+    }
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        if (data['command'] === 'messages') {
+            for (let i = 0; i < data['messages'].length; i++) {
+                createMessage(data['messages'][i]);
+            }
+        } else if (data['command'] === 'new_message') {
+            createMessage(data['message']);
+        }
+    }
+
+    function createMessage(data) {
+        chatText.value += (data.author + ': ' + data.content + '\n');
+    }
+
+    function fetchMessages() {
+        chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
+    }
+
+    submitButton.onclick = function (e) {
+        const message = messageInputDom.value.trim();
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'command': 'new_message',
+                'from': user_username,
+                'to': receiver_username
+            }));
+            messageInputDom.value = '';
+        }
+    };
+</script>
+</body>
+</html>

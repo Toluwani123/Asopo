@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Posts</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Fjalla+One&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Fjalla One";
+        }
+
+        body {
+            background-color: #f8f4e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2A293E;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2A293E;
+        }
+
+        p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ffa580;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            background-color: #ff774d;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .no-posts {
+            text-align: center;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        .post {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .post h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #777;
+        }
+
+        .creator-details {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .creator-details p {
+            margin-right: 10px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+
+        .bid-info {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .bid-info h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .bid-info p {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .edit-bid {
+            background-color: #555;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .edit-bid:hover {
+            background-color: #333;
+        }
+
+        .create-bid {
+            background-color: #2A293E;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .create-bid:hover {
+            background-color: #1A192E;
+        }
+
+        .edit-profile {
+            margin-top: 20px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+
+        .edit-profile h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2A293E;
+        }
+
+        .edit-profile p {
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #777;
+        }
+
+        .edit-profile a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ffa580;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .edit-profile a:hover {
+            background-color: #ff774d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="edit-profile">
+          <h3>User Details</h3>
+          <p>Username: {{ request.user.username }}</p>
+          <p>Email: {{ request.user.email }}</p>
+          <p>First Name: {{ request.user.first_name }}</p>
+          <p>Last Name: {{ request.user.last_name }}</p>
+          <a href="{% url 'edit_enduser' request.user.id %}">Edit Profile</a>
+        </div>
+        <h1>Your Selected Posts</h1>
+
+        {% for item in feed %}
+            {% with post=item.post bid=item.bid %}
+                <div class="post">
+                    <h2>Project Title: {{ post.title }}</h2>
+                    <p>Created by: {{ post.creator.user.username }}</p>
+                    <!-- Display other post information as needed -->
+
+                    <div class="creator-details">
+                        <p>Your Bid is Below</p>
+                    </div>
+
+                    <div class="actions">
+                        <a class="start-chat" href="{% url 'booth' post.title %}">Start Chat</a>
+
+                        {% if bid %}
+                            <div class="bid-info">
+                                <h2>Bid Price: {{ bid.bid_price }}</h2>
+                                <p>Custom Option: {{ bid.custom_option }}</p>
+                                <p>Comments: {{ bid.comments }}</p>
+                                <a class="edit-bid" href="{% url 'update_bid' bid.id %}">Edit Bid</a>
+                            </div>
+                        {% else %}
+                            <a class="create-bid" href="{% url 'create_bid' post.id %}">Create a Bid</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endwith %}
+            <hr>
+        {% empty %}
+            <p class="no-posts">No posts found.</p>
+        {% endfor %}
+
+
+    </div>
+</body>
+</html>
