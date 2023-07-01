@@ -111,7 +111,7 @@
                     <div class="form-group">
                         <input class="form-control" id="input" type="text" placeholder="Type your message here">
                     </div>
-                    <input class="btn btn-submit btn-lg btn-block" id="submit" type="button" value="Send"
+                    <input class="btn btn-submit btn-lg btn-block" id="submit" type="submit" value="Send"
                         {% if not accepted_bid.accepted %}disabled{% endif %}>
                 </form>
                 <a href="{% url 'product_page' %}" class="link-payment">Proceed to pay for your Bid</a>
