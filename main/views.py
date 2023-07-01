@@ -257,12 +257,11 @@ class EditBid(LoginRequiredMixin, UpdateView):
 class AcceptBidView(View):
     def post(self, request, bid_id):
         bid = get_object_or_404(Bid, id=bid_id)
+        project = bid.project
 
-
-        if bid.project.accepted_bid is not None:
-      
+        has_accepted_bid = Bid.objects.filter(project=project, accepted=True).exists()
+        if has_accepted_bid:
             return redirect('creator_profile', pk=request.user.id, error='A bid is already accepted for this project.')
-
 
         bid.accepted = True
         bid.save()
