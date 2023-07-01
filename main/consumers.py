@@ -31,8 +31,6 @@ class BoothConsumer(WebsocketConsumer):
             'receiver': message.receiver.user.username
         }
 
-
-
     def new_message(self, data):
         author = data['from']
         author_user = User.objects.get(username=author)
@@ -64,7 +62,6 @@ class BoothConsumer(WebsocketConsumer):
             'message': self.message_to_json(message)
         }
         return self.send_chat_message(content)
-
 
     commands = {
         'fetch_messages': fetch_message,
