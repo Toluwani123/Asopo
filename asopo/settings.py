@@ -150,4 +150,4 @@ STRIPE_PUBLIC_KEY_TEST = os.getenv("STRIPE_PUBLIC")
 STRIPE_SECRET_KEY_TEST = os.getenv("STRIPE_PRIVATE")
 PRODUCT_PRICE = os.getenv("PRODUCT_PRICE")
 
-django_heroku.settingS(locals())
+django_heroku.settings(locals())
