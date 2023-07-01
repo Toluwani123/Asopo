@@ -160,7 +160,7 @@
     }
 
     function createMessage(data) {
-        chatText.value += (data.author + ': ' + data.content + '\n');
+        chatText.value = data.author + ': ' + data.content + '\n' + chatText.value;
     }
 
     function fetchMessages() {

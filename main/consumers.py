@@ -10,12 +10,14 @@ User = get_user_model()
 class BoothConsumer(WebsocketConsumer):
 
     def fetch_message(self, data):
-        messages = Message.last_10()
+        messages = Message.objects.order_by('-time_stamp')[:10]
         content = {
             'command': 'messages',
-            'messages': self.messages_to_json(messages)
+            'messages': self.messages_to_json(messages[::-1])
         }
         self.send_chat_message(content)
+
+
 
     def messages_to_json(self, messages):
         result = []
@@ -28,9 +30,8 @@ class BoothConsumer(WebsocketConsumer):
             'author': message.author.username,
             'content': message.content,
             'timestamp': str(message.time_stamp),
-            'receiver': message.receiver.username
+            'receiver': message.receiver.username,
         }
-
     def new_message(self, data):
         author = data['from']
         author_user = User.objects.get(username=author)
