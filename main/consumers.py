@@ -25,10 +25,10 @@ class BoothConsumer(WebsocketConsumer):
 
     def message_to_json(self, message):
         return {
-            'author': message.author.user.username,
+            'author': message.author.username,
             'content': message.content,
             'timestamp': str(message.time_stamp),
-            'receiver': message.receiver.user.username
+            'receiver': message.receiver.username
         }
 
     def new_message(self, data):
