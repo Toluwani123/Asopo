@@ -9693,7 +9693,6 @@ body.sidebar-open::before {
 }
 
 .contact-us .contact-us-bgimage {
-  background-image: url("../images/gdpr.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
