@@ -264,11 +264,6 @@ class AcceptBidView(View):
             return redirect('creator_profile', pk=request.user.id, error='A bid is already accepted for this project.')
 
 
-        bid.project.accepted_bid = bid
-        
-        bid.project.save()
-
-
         bid.accepted = True
         bid.save()
 
