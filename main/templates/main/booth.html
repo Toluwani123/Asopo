@@ -135,9 +135,9 @@
     const submitButton = document.querySelector('#submit');
     const boothName = JSON.parse(document.getElementById('booth-name').textContent);
     const chatSocket = new ReconnectingWebSocket(
-        'ws://' +
+        'wss://' +
         window.location.host +
-        '/ws/creator_chat/' +
+        '/wss/creator_chat/' +
         boothName +
         '/'
     );
