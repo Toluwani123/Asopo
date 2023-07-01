@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import django_heroku
+import dj_database_url
 load_dotenv()
 
 import os
@@ -130,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -147,3 +149,5 @@ REDIRECT_DOMAIN = 'http://127.0.0.1:8000'
 STRIPE_PUBLIC_KEY_TEST = os.getenv("STRIPE_PUBLIC")
 STRIPE_SECRET_KEY_TEST = os.getenv("STRIPE_PRIVATE")
 PRODUCT_PRICE = os.getenv("PRODUCT_PRICE")
+
+django_heroku.settingS(locals())
