@@ -136,7 +136,7 @@
     const messageInputDom = document.querySelector('#input');
     const submitButton = document.querySelector('#submit');
     const boothName = JSON.parse(document.getElementById('booth-name').textContent);
-    let chatSocket = new ReconnectingWebSocket(
+    const chatSocket = new ReconnectingWebSocket(
         'wss://' +
         window.location.host +
         '/wss/creator_chat/' +
@@ -145,23 +145,8 @@
     );
 
     chatSocket.onopen = function (e) {
-        // Close any existing WebSocket connection
-        if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
-            chatSocket.close();
-        }
-    
-        // Open a new WebSocket connection
-        chatSocket = new ReconnectingWebSocket(
-            'wss://' +
-            window.location.host +
-            '/wss/creator_chat/' +
-            boothName +
-            '/'
-        );
-    
-        // Fetch messages
         fetchMessages();
-    };
+    }
 
     chatSocket.onmessage = function (e) {
         var data = JSON.parse(e.data);
@@ -175,7 +160,7 @@
     }
 
     function createMessage(data) {
-        chatText.value += (data.author + ': ' + data.content + '\n');
+        chatText.value = data.author + ': ' + data.content + '\n' + chatText.value;
     }
 
     function fetchMessages() {
