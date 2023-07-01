@@ -124,8 +124,8 @@
 
 {{ request.user.username|json_script:"user_username" }}
 {{ booth_name|json_script:"booth-name" }}
-{{ accepted_bid.project.creator.user.username|json_script='creator_receiver' }};
-{{ accepted_bid.bidder.user.username|json_script='enduser_receiver' }}
+{{ accepted_bid.project.creator.user.username|json_script:'creator_receiver' }};
+{{ accepted_bid.bidder.user.username|json_script:'enduser_receiver' }}
 
 <script src="{% static 'reconnecting-websocket.js' %}"></script>
 <script>
