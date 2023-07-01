@@ -145,9 +145,21 @@
     );
 
     chatSocket.onopen = function (e) {
-        if (chatSocket.readyState === WebSocket.OPEN) {
+        // Close any existing WebSocket connection
+        if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
             chatSocket.close();
         }
+    
+        // Open a new WebSocket connection
+        chatSocket = new ReconnectingWebSocket(
+            'wss://' +
+            window.location.host +
+            '/wss/creator_chat/' +
+            boothName +
+            '/'
+        );
+    
+        // Fetch messages
         fetchMessages();
     };
 
