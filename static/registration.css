@@ -33,7 +33,7 @@ a:hover {
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
-  background-image: url('/static/main/images/bg-registration-form-2.jpg');
+  background-image: url('/images/bg-registration-form-2.jpg');
   align-items: center; }
 
 
