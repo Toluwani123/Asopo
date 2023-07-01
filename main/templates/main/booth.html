@@ -145,8 +145,11 @@
     );
 
     chatSocket.onopen = function (e) {
+        if (chatSocket.readyState === WebSocket.OPEN) {
+            chatSocket.close();
+        }
         fetchMessages();
-    }
+    };
 
     chatSocket.onmessage = function (e) {
         var data = JSON.parse(e.data);
@@ -160,7 +163,7 @@
     }
 
     function createMessage(data) {
-        chatText.value = data.author + ': ' + data.content + '\n' + chatText.value;
+        chatText.value += (data.author + ': ' + data.content + '\n');
     }
 
     function fetchMessages() {
