@@ -1,1 +1,1 @@
-web: gunicorn asopo.wsgi
+web: gunicorn asopo.wsgi:application --log-file - 
