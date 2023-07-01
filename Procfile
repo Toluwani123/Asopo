@@ -1,1 +1,2 @@
-web: gunicorn asopo.wsgi:application --log-file - 
+web: daphne asopo.asgi:application --port $PORT --bind 0.0.0.0 -v2
+worker: python manage.py runworker channels --settings=asopo.settings -v2
