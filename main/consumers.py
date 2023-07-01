@@ -34,12 +34,10 @@ class BoothConsumer(WebsocketConsumer):
     def new_message(self, data):
         author = data['from']
         author_user = User.objects.get(username=author)
-        author_end_user = EndUser.objects.get(user=author_user)
 
         receiver = data['to']
         try:
             receiver_user = User.objects.get(username=receiver)
-            receiver_end_user = Creator.objects.get(user=receiver_user)
         except User.DoesNotExist:
             # Handle the case when the receiver user does not exist
             # You can raise an exception, send an error message to the client, or log the error
@@ -52,9 +50,9 @@ class BoothConsumer(WebsocketConsumer):
             return self.send_chat_message(content)
 
         message = Message.objects.create(
-            author=author_end_user,
+            author=author_user,
             content=data['message'],
-            receiver=receiver_end_user
+            receiver=receiver_user
         )
 
         content = {

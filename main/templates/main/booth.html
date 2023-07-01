@@ -124,12 +124,14 @@
 
 {{ request.user.username|json_script:"user_username" }}
 {{ booth_name|json_script:"booth-name" }}
-{{ accepted_bid.project.creator.user.username|json_script:"receiver_name" }}
+{{ accepted_bid.project.creator.user.username|json_script='creator_receiver' }};
+{{ accepted_bid.bidder.user.username|json_script='enduser_receiver' }}
 
 <script src="{% static 'reconnecting-websocket.js' %}"></script>
 <script>
     const user_username = JSON.parse(document.getElementById('user_username').textContent);
-    const receiver_username = JSON.parse(document.getElementById('receiver_name').textContent);
+    const creator_receiver = JSON.parse(document.getElementById('creator_receiver').textContent);
+    const enduser_receiver = JSON.parse(document.getElementById('enduser_receiver').textContent);
     const chatText = document.querySelector('#chat-text');
     const messageInputDom = document.querySelector('#input');
     const submitButton = document.querySelector('#submit');
@@ -168,15 +170,22 @@
     submitButton.onclick = function (e) {
         const message = messageInputDom.value.trim();
         if (message) {
+            let toUser;
+            {% if request.user.is_enduser %}
+                toUser = creator_receiver ;
+            {% else %}
+                toUser = enduser_receiver;
+            {% endif %}
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'command': 'new_message',
                 'from': user_username,
-                'to': receiver_username
+                'to': toUser
             }));
             messageInputDom.value = '';
         }
     };
 </script>
+
 </body>
 </html>
