@@ -126,7 +126,7 @@
 {{ booth_name|json_script:"booth-name" }}
 {{ accepted_bid.project.creator.user.username|json_script:"receiver_name" }}
 
-<script src="{% static 'main/reconnecting-websocket.js' %}"></script>
+<script src="{% static 'reconnecting-websocket.js' %}"></script>
 <script>
     const user_username = JSON.parse(document.getElementById('user_username').textContent);
     const receiver_username = JSON.parse(document.getElementById('receiver_name').textContent);
