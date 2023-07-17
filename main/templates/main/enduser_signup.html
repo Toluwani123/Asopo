@@ -50,7 +50,7 @@
             <div class="formbg">
               <div class="formbg-inner padding-horizontal--48">
                 <span class="padding-bottom--15">Sign Up EndUser!</span>
-                <form id="stripe-login" method="POST">
+                <form id="stripe-login" method="POST" enctype="multipart/form-data">
                   {%csrf_token%}
                   <div class="field padding-bottom--24">
                     <label for="email">Phone Number</label>
@@ -66,8 +66,16 @@
                     {{form.address}}
                   </div>
                   <div class="field padding-bottom--24">
-                    <label for="email">Project Scope</label>
-                    {{form.required}}
+                    <label for="email">Project Scope 1</label>
+                    {{form.required_1}}
+                  </div>
+                  <div class="field padding-bottom--24">
+                    <label for="email">Project Scope 2</label>
+                    {{form.required_2}}
+                  </div>
+                  <div class="field padding-bottom--24">
+                    <label for="email">Project Scope 3</label>
+                    {{form.required_3}}
                   </div>
                   <div class="field field-checkbox padding-bottom--24 flex-flex align-center">
                     <label for="checkbox">

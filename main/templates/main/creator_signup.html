@@ -50,11 +50,19 @@
             <div class="formbg">
               <div class="formbg-inner padding-horizontal--48">
                 <span class="padding-bottom--15">Sign Up Creator!</span>
-                <form id="stripe-login" method="POST">
+                <form id="stripe-login" method="POST" enctype="multipart/form-data">
                   {%csrf_token%}
                   <div class="field padding-bottom--24">
                     <label for="email">Profession</label>
-                    {{form.profession}}
+                    {{form.profession_1}}
+                  </div>
+                  <div class="field padding-bottom--24">
+                    <label for="email">Profession</label>
+                    {{form.profession_2}}
+                  </div>
+                  <div class="field padding-bottom--24">
+                    <label for="email">Profession</label>
+                    {{form.profession_3}}
                   </div>
                   <div class="field padding-bottom--24">
                     <div class="grid--50-50">

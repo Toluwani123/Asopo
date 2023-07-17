@@ -6,10 +6,10 @@ from django.core.exceptions import PermissionDenied
 
 
 INTERESTS = (
-    ("FRONTEND", "Frontend Developers"),
-    ("BACKEND", "Backend Developers"),
-    ("FULLSTACK", "FullStack Developers"),
-    ("BLOCKCHAIN", "Blockchain Developers"),
+    ("FRONTEND", "Frontend Dev."),
+    ("BACKEND", "Backend Dev."),
+    ("FULLSTACK", "FullStack Dev."),
+    ("BLOCKCHAIN", "Blockchain Dev."),
     ("DATA_ANALYSIS", "Data Analyst"),
 )
 
@@ -24,8 +24,15 @@ class Creator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     description = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
+    profile_picture = models.ImageField(null=True, blank=True, upload_to="creator-pictures/")
     contact_email = models.EmailField()
-    profession = models.CharField(
+    profession_1 = models.CharField(
+        max_length=15, choices=INTERESTS, null=True, blank=True
+    )
+    profession_2 = models.CharField(
+        max_length=15, choices=INTERESTS, null=True, blank=True
+    )
+    profession_3 = models.CharField(
         max_length=15, choices=INTERESTS, null=True, blank=True
     )
     contact_phone = models.CharField(max_length=20)
@@ -38,12 +45,19 @@ class Creator(models.Model):
 
 class EndUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    required = models.CharField(
+    required_1 = models.CharField(
+        max_length=15, choices=INTERESTS, null=True, blank=True
+    )
+    required_2 = models.CharField(
+        max_length=15, choices=INTERESTS, null=True, blank=True
+    )
+    required_3 = models.CharField(
         max_length=15, choices=INTERESTS, null=True, blank=True
     )
 
     phone_number = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
+    profile_picture = models.ImageField(null=True, blank=True, upload_to="enduserpictures/")
 
     def __str__(self):
         return self.user.email
@@ -57,6 +71,12 @@ class Post(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="creator-pictures/")
     closed = models.BooleanField(default=False)
     payed = models.BooleanField(default= False)
+    field = models.CharField(
+        max_length=15, choices=INTERESTS, null=True, blank=True
+    )
+    demo_picture_1 = models.ImageField(null=True, blank=True, upload_to="projectpictures/")
+    demo_picture_2 = models.ImageField(null=True, blank=True, upload_to="projectpictures/")
+    demo_picture_3 = models.ImageField(null=True, blank=True, upload_to="projectpictures/")
 
     def __str__(self):
         return f"{self.creator.user.email} - {self.title}"

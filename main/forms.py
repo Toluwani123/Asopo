@@ -66,15 +66,7 @@ class UserCreate(UserCreationForm):
 class CreatorForm(forms.ModelForm):
     class Meta:
         model = Creator
-        fields = [
-            "profession",
-            "description",
-            "location",
-            "contact_email",
-            "contact_phone",
-            "website",
-        ]
-
+        exclude = {"user"}
 class CreateBid(forms.ModelForm):
     class Meta:
         model = Bid
@@ -84,7 +76,7 @@ class CreateBid(forms.ModelForm):
 class EndUserForm(forms.ModelForm):
     class Meta:
         model = EndUser
-        fields = ["phone_number", "address", 'required']
+        exclude = {"user"}
 
 
 class CreatorPostForm(forms.ModelForm):

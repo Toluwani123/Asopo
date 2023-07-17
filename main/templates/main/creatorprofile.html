@@ -287,6 +287,19 @@
     <div class="header">
         <div class="profile-card">
             <div class="profile-info">
+                {% if creatorprofile.profile_picture %}
+                    <img
+                        src="{{ creatorprofile.profile_picture.url }}"
+                        width="50"
+                        height="50"
+                        class="rounded-circle"
+                        alt="{{ person.user.username }}"
+                    />
+
+                {% else %}
+                    <img src="{% static 'images/gdpr.jpg'%}" />
+                {% endif %}
+
                 <h2>{{ creatorprofile.user.username }}'s Profile </h2>
                 <p>Email: {{ creatorprofile.user.email }}</p>
                 <p>First Name: {{ creatorprofile.user.first_name }}</p>
