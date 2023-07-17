@@ -5,6 +5,8 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib.auth.models import User
 from .models import *
 from .forms import *
+
+from django.db.models import Q
 from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView
@@ -171,15 +173,15 @@ class EndUserHomePage(ListView):
 
         # Filter posts by creator professions and field
         queryset = Post.objects.filter(
-            creator__profession_1=required_field_1,
-            creator__profession_1=required_field_2,
-            creator__profession_1=required_field_3,
-            creator__profession_2=required_field_1,
-            creator__profession_2=required_field_2,
-            creator__profession_2=required_field_3,
-            creator__profession_3=required_field_3,
-            creator__profession_3=required_field_2,
-            creator__profession_3=required_field_1,
+            Q(creator__profession_1=required_field_1) | 
+            Q(creator__profession_2=required_field_1) |
+            Q(creator__profession_3=required_field_1),
+            Q(creator__profession_1=required_field_2) |
+            Q(creator__profession_2=required_field_2) |
+            Q(creator__profession_3=required_field_2),
+            Q(creator__profession_1=required_field_3) |
+            Q(creator__profession_2=required_field_3) |
+            Q(creator__profession_3=required_field_3),
             field__in=[required_field_1, required_field_2, required_field_3]
         ).exclude(closed=True).exclude(payed=True)
 
